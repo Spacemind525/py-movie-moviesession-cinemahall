@@ -1,10 +1,11 @@
 from db.models import MovieSession
+from datetime import datetime
 
 
 def create_movie_session(
-        movie_show_time,
-        movie_id,
-        cinema_hall_id
+        movie_show_time: datetime,
+        movie_id: int,
+        cinema_hall_id: int,
 ) -> MovieSession:
     return MovieSession.objects.create(
         show_time=movie_show_time,
@@ -13,22 +14,22 @@ def create_movie_session(
     )
 
 
-def get_movies_sessions(session_date=None) -> MovieSession:
+def get_movies_sessions(session_date: datetime | None = None) -> MovieSession:
     qr = MovieSession.objects.all()
     if session_date:
         qr = qr.filter(show_time__date=session_date)
     return qr
 
 
-def get_movie_session_by_id(movie_session_id) -> MovieSession:
+def get_movie_session_by_id(movie_session_id: int) -> MovieSession:
     return MovieSession.objects.get(id=movie_session_id)
 
 
 def update_movie_session(
-        session_id,
-        show_time=None,
-        movie_id=None,
-        cinema_hall_id=None
+        session_id: int,
+        show_time: datetime | None = None,
+        movie_id: int | None = None,
+        cinema_hall_id: int | None = None,
 ) -> MovieSession:
     new_movie = MovieSession.objects.get(id=session_id)
     if show_time:
@@ -41,5 +42,5 @@ def update_movie_session(
     return new_movie
 
 
-def delete_movie_session_by_id(session_id) -> None:
+def delete_movie_session_by_id(session_id: int) -> None:
     MovieSession.objects.filter(id=session_id).delete()

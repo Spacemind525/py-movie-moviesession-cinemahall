@@ -1,7 +1,10 @@
 from db.models import Movie
 
 
-def get_movies(genres_ids=None, actors_ids=None) -> list | None:
+def get_movies(
+        genres_ids: list | None = None,
+        actors_ids: list | None = None,
+) -> list | None:
     movie = Movie.objects.all()
     if not genres_ids and not actors_ids:
         return movie
@@ -13,13 +16,7 @@ def get_movies(genres_ids=None, actors_ids=None) -> list | None:
     return movie
 
 
-def __str__(self) -> str:
-    return self.name
-
-
-def get_movie_by_id(movie_id: int) -> dict | None:
-    if not movie_id:
-        return None
+def get_movie_by_id(movie_id: int | None) -> dict | None:
     if movie_id:
         return Movie.objects.get(id=movie_id)
 
