@@ -1,10 +1,11 @@
 from db.models import Movie
+from django.db.models import QuerySet
 
 
 def get_movies(
         genres_ids: list | None = None,
         actors_ids: list | None = None,
-) -> list | None:
+) -> QuerySet[Movie]:
     movie = Movie.objects.all()
     if not genres_ids and not actors_ids:
         return movie
@@ -13,10 +14,10 @@ def get_movies(
         movie = movie.filter(genres__id__in=genres_ids)
     if actors_ids:
         movie = movie.filter(actors__id__in=actors_ids)
-    return movie
+    return movie.distinct()
 
 
-def get_movie_by_id(movie_id: int | None) -> dict | None:
+def get_movie_by_id(movie_id: Movie | None) -> dict | None:
     if movie_id:
         return Movie.objects.get(id=movie_id)
 
